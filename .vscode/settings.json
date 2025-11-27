@@ -1,0 +1,18 @@
+{
+  // Keep normal IntelliSense suggestions but disable AI-like inline ghost text and auto-accept
+  "editor.inlineSuggest.enabled": false,
+  "editor.suggest.enabled": true,
+  "editor.quickSuggestions": { "other": true, "comments": false, "strings": false },
+  "editor.suggestOnTriggerCharacters": true,
+  // Do not auto-accept suggestions when typing commit characters
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  // Prevent accidental completion with Tab
+  "editor.tabCompletion": "off",
+  // Allow word-based suggestions from the current document
+  "editor.wordBasedSuggestions": "currentDocument",
+  // Keep automatic formatting off in this workspace
+  "editor.formatOnSave": false,
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": false
+}
