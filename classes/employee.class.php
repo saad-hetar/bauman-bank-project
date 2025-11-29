@@ -11,11 +11,11 @@ class admin
         cancel_payments as private;
     }
 
-    use transfer
-    {
-        cancel_internal_transfer as private;
-        cancel_external_transfer as private;
-    }
+    use transfer;
+    // {
+    //     cancel_internal_transfer as private;
+    //     cancel_external_transfer as private;
+    // }
 
     use customer_trait
     {

@@ -187,6 +187,34 @@ trait card
         }
     }
 
+    private function check_amount_before_trans($card_num, $amount)
+    {
+        global $pdo;
+
+        try
+        {
+            $sql = "SELECT 
+                        CASE 
+                            WHEN balance >= :amount THEN TRUE
+                            ELSE FALSE
+                        END AS is_enough
+                    FROM card
+                    WHERE card_num = :card_num";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ":card_num" => $card_num,
+                ":amount" => $amount
+            ]);
+
+            return (bool)$stmt->fetchColumn();
+        }
+        catch(PDOException $e)
+        {
+            throw new PDOException("error in check_amount_before_trans" . $e->getMessage(), (int)$e->getCode(), $e);
+        }
+    }
+
     private function add_money($card_num, $amount)
     {
         global $pdo;
@@ -213,13 +241,20 @@ trait card
 
         try
         {
-            $sql = "UPDATE card SET balance = balance - :amount WHERE card_num = :card_num";
+            if($this->check_amount_before_trans($card_num, $amount) === true)
+            {
+                $sql = "UPDATE card SET balance = balance - :amount WHERE card_num = :card_num";
 
-            $stmt = $pdo->prepare($sql);
-            return $stmt->execute([
-                ":amount" => $amount,
-                ":card_num" => $card_num
-            ]);
+                $stmt = $pdo->prepare($sql);
+                return $stmt->execute([
+                    ":amount" => $amount,
+                    ":card_num" => $card_num
+                ]);
+            }
+            else
+            {
+                throw new PDOException("error. money isn't enough for the transaction");
+            }
         }
         catch(PDOException $e)
         {

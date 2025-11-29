@@ -378,7 +378,7 @@ trait transfer
     }
 
 
-    public function cancel_internal_transfer($trans_id)
+    /*public function cancel_internal_transfer($trans_id)
     {
         global $pdo;
 
@@ -386,32 +386,51 @@ trait transfer
         {
             $pdo->beginTransaction();
 
-            // sender_card_num
-            $sql1 = "UPDATE card 
-                    JOIN transfer ON transfer.sender_card_num = card.card_num
-                    SET card.balance = card.balance + transfer.amount + transfer.commission
-                    WHERE transfer.trans_id = :trans_id";
-
-            $stmt = $pdo->prepare($sql1);
-            $stmt->execute([":trans_id" => $trans_id]);
-
-            // receiver_card_num
-            $sql2 = "UPDATE card 
+            $sql = "SELECT 
+                        CASE 
+                            WHEN card.balance >= transfer.amount THEN TRUE
+                            ELSE FALSE
+                        END AS is_enough
+                    FROM card
                     JOIN transfer ON transfer.receiver_card_num = card.card_num
-                    SET card.balance = card.balance - transfer.amount
                     WHERE transfer.trans_id = :trans_id";
 
-            $stmt = $pdo->prepare($sql2);
+            $stmt = $pdo->prepare($sql);
             $stmt->execute([":trans_id" => $trans_id]);
 
-            // to delete from transfer
-            $stmt = $pdo->prepare("DELETE FROM transfer WHERE trans_id = :trans_id");
-            $stmt->execute([
-                "trans_id" => $trans_id
-            ]);
+            if($stmt->fetchColumn() === "1")
+            {
+                // sender_card_num
+                $sql1 = "UPDATE card 
+                        JOIN transfer ON transfer.sender_card_num = card.card_num
+                        SET card.balance = card.balance + transfer.amount + transfer.commission
+                        WHERE transfer.trans_id = :trans_id";
 
-            $this->commi();
-            return "internal transfer got canceled succsessfully";
+                $stmt = $pdo->prepare($sql1);
+                $stmt->execute([":trans_id" => $trans_id]);
+
+                // receiver_card_num
+                $sql2 = "UPDATE card 
+                        JOIN transfer ON transfer.receiver_card_num = card.card_num
+                        SET card.balance = card.balance - transfer.amount
+                        WHERE transfer.trans_id = :trans_id";
+
+                $stmt = $pdo->prepare($sql2);
+                $stmt->execute([":trans_id" => $trans_id]);
+
+                // to delete from transfer
+                $stmt = $pdo->prepare("DELETE FROM transfer WHERE trans_id = :trans_id");
+                $stmt->execute([
+                    "trans_id" => $trans_id
+                ]);
+
+                $this->commi();
+                return "internal transfer got canceled succsessfully";
+            }
+            else
+            {
+                throw new PDOException("error. money isn't enough for the transaction");
+            }
             
         }
         catch(PDOException $e)
@@ -465,7 +484,7 @@ trait transfer
             $pdo->rollBack();
             return "failed to cancel external transfer, <br>".$e->getMessage();
         }
-    }
+    }*/
 
     public function get_last_transfer()
     {

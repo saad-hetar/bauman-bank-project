@@ -66,8 +66,8 @@ class customer
         read_all_transfer as private;
         read_transfer as private;
         search_transfer as private;
-        cancel_internal_transfer as private;
-        cancel_external_transfer as private;
+        // cancel_internal_transfer as private;
+        // cancel_external_transfer as private;
     }
 
     use saving_deposit
