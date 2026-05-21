@@ -62,12 +62,12 @@ class customer
         delete_saving_deposit as private;
     }
 
-    use customer_tr{
-        customer_tr::create_customer as private;
-        customer_tr::search_customer as private;
-        customer_tr::delete_customer as private;
-        customer_tr::get_last_customer as private;
-    }
+    // use customer_tr{
+    //     customer_tr::create_customer as private;
+    //     customer_tr::search_customer as private;
+    //     customer_tr::delete_customer as private;
+    //     customer_tr::get_last_customer as private;
+    // }
 
     // use passport, customer_tr, transaction
     // {

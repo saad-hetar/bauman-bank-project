@@ -129,3 +129,8 @@ SELECT employee.emp_id,
                     LEFT JOIN login
                         ON login.user_id = employee.emp_id
                     WHERE employee.emp_id = 3;
+
+
+
+
+select * from login;

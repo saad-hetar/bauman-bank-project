@@ -2,7 +2,7 @@
 // $host = 'localhost';
 // $db   = 'bauman_bank';
 // $user = 'root';
-// $pass = 'saad+-*54';
+// $pass = '';
 // $charset = 'utf8mb4';
 
 // $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -18,4 +18,3 @@
 // } catch (\PDOException $e) {
 //     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 // }
-?>
