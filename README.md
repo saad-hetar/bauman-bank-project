@@ -7,3 +7,5 @@ To run the project:
 5) Move the project folder to C:\xampp\htdocs
 6) Open "http://localhost/bauman_bank/public/auth/login.php" in your browser.
 7) Log in by the login and password you have created and then you can add employees and customers.
+
+Note: In files section usage and tables usage you can see the information you need to understand how the system works
